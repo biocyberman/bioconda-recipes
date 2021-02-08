@@ -1,6 +1,6 @@
 {% set name = "PyEnsembl" %}
-{% set version = "1.2.6" %}
-{% set sha256 = "28a5b7dcd0c15ba3fbffb2e13120394d0f95f6968cbf6314ec71afebb3d981e7" %}
+{% set version = "1.9.1" %}
+{% set sha256 = "0c4f64f3b0a9d4195aa61edc6790c7cadfc424723c66980f6f70b773b1ab0508" %}
 
 package:
   name: {{ name|lower }}
@@ -11,13 +11,14 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  noarch: python
+  number: 0
   script: python -m pip install --no-deps --ignore-installed .
   entry_points:
     - pyensembl = pyensembl.shell:run
 
 requirements:
-  build:
+  host:
     - python
     - pip
     - setuptools

@@ -1,21 +1,28 @@
+ {% set version = "4.2.1" %}
+
 package:
   name: cancerit-allelecount
-  version: '2.1.2'
+  version: {{ version }}
 source:
-  fn: alleleCount-v2.1.2.tar.gz
-  url: https://github.com/cancerit/alleleCount/archive/v2.1.2.tar.gz
-  sha256: 2c7fd5521d4dd3353a3937949007ba8b0b0ad6025ea06f82ee351e837f1dd625
+  url: https://github.com/cancerit/alleleCount/archive/v{{ version }}.tar.gz
+  sha256: dbec2d47fb4fad8ead72f55c4b6e3c02b216cbed285c05617b62e9a38c32e400
 build:
-  number: 2
+  number: 0
   skip: True # [osx]
 requirements:
   build:
-    - gcc   # [linux]
-    - llvm  # [osx]
-    - zlib {{CONDA_ZLIB}}*
+    - {{ compiler('c') }}
+  host:
+    - zlib
     - wget
+    - curl
+    - bzip2
+    - xz
+    - libdeflate
+    - htslib
   run:
-    - zlib {{CONDA_ZLIB}}*
+    - zlib
+    - htslib
 test:
   commands:
     - 'alleleCounter -h'

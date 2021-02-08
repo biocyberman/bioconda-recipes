@@ -1,4 +1,4 @@
-{% set version = "0.30.0" %}
+{% set version = "20.10.0" %}
 
 package:
   name: nextflow
@@ -6,27 +6,27 @@ package:
 
 build:
   number: 0
+  noarch: generic
 
 source:
-  fn: nextflow
   url: https://www.nextflow.io/releases/v{{ version }}/nextflow
-  sha256: 54fef8b8ce8dac3b90049bcb2ca6403e80418a923a110fd1778c285be2facaff
+  sha256: 54f76c83cbabe8ec68d6a878dcf921e647284499f4ae917356e594d873cb78dd
 
 requirements:
-  build:
-    - openjdk >=8,<=10
+  host:
+    - openjdk >=8,<=15
     - coreutils
     - curl
   run:
-    - openjdk >=8,<=10
+    - openjdk >=8,<=15
     - coreutils
     - curl
-    
+
 test:
   commands:
     - nextflow -v
 
 about:
   home: "https://github.com/nextflow-io/nextflow"
-  license: "GPL3"
+  license: "Apache-2.0"
   summary: "A DSL for data-driven computational pipelines http://nextflow.io"

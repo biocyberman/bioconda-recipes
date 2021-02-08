@@ -1,33 +1,37 @@
-{% set version = "1.14.0" %}
+{% set version = "1.25.0" %}
 {% set name = "Rariant" %}
-{% set bioc = "3.6" %}
+{% set bioc = "3.12" %}
 
 package:
   name: 'bioconductor-{{ name|lower }}'
   version: '{{ version }}'
 source:
-  fn: '{{ name }}_{{ version }}.tar.gz'
   url:
-    - 'http://bioconductor.org/packages/{{ bioc }}/bioc/src/contrib/{{ name }}_{{ version }}.tar.gz'
+    - 'https://bioconductor.org/packages/{{ bioc }}/bioc/src/contrib/{{ name }}_{{ version }}.tar.gz'
     - 'https://bioarchive.galaxyproject.org/{{ name }}_{{ version }}.tar.gz'
     - 'https://depot.galaxyproject.org/software/bioconductor-{{ name|lower }}/bioconductor-{{ name|lower }}_{{ version }}_src_all.tar.gz'
-  sha256: 648ae2d5e7ef8aa5698b99dd9895dba688f7f4b4bcd6ac1a2df1bfb6dd13dccd
+  md5: f5611c5291450dbbdc793ea09eae1d80
+  patches:
+    - 0001-Replace-deprecated-rbind_all-with-bind_rows.patch
 build:
   number: 0
   rpaths:
     - lib/R/lib/
     - lib/
+  noarch: generic
+# Suggests: h5vcData, testthat, knitr, optparse, BSgenome.Hsapiens.UCSC.hg19
 requirements:
-  build:
-    - bioconductor-exomecopy
-    - bioconductor-genomeinfodb
-    - bioconductor-genomicranges
-    - bioconductor-ggbio
-    - bioconductor-iranges
-    - bioconductor-rsamtools
-    - bioconductor-s4vectors
-    - bioconductor-somaticsignatures
-    - bioconductor-variantannotation
+  host:
+    - 'bioconductor-biocgenerics >=0.36.0,<0.37.0'
+    - 'bioconductor-exomecopy >=1.36.0,<1.37.0'
+    - 'bioconductor-genomeinfodb >=1.26.0,<1.27.0'
+    - 'bioconductor-genomicranges >=1.42.0,<1.43.0'
+    - 'bioconductor-ggbio >=1.38.0,<1.39.0'
+    - 'bioconductor-iranges >=2.24.0,<2.25.0'
+    - 'bioconductor-rsamtools >=2.6.0,<2.7.0'
+    - 'bioconductor-s4vectors >=0.28.0,<0.29.0'
+    - 'bioconductor-somaticsignatures >=2.26.0,<2.27.0'
+    - 'bioconductor-variantannotation >=1.36.0,<1.37.0'
     - r-base
     - r-dplyr
     - r-ggplot2
@@ -35,15 +39,16 @@ requirements:
     - r-shiny
     - r-vgam
   run:
-    - bioconductor-exomecopy
-    - bioconductor-genomeinfodb
-    - bioconductor-genomicranges
-    - bioconductor-ggbio
-    - bioconductor-iranges
-    - bioconductor-rsamtools
-    - bioconductor-s4vectors
-    - bioconductor-somaticsignatures
-    - bioconductor-variantannotation
+    - 'bioconductor-biocgenerics >=0.36.0,<0.37.0'
+    - 'bioconductor-exomecopy >=1.36.0,<1.37.0'
+    - 'bioconductor-genomeinfodb >=1.26.0,<1.27.0'
+    - 'bioconductor-genomicranges >=1.42.0,<1.43.0'
+    - 'bioconductor-ggbio >=1.38.0,<1.39.0'
+    - 'bioconductor-iranges >=2.24.0,<2.25.0'
+    - 'bioconductor-rsamtools >=2.6.0,<2.7.0'
+    - 'bioconductor-s4vectors >=0.28.0,<0.29.0'
+    - 'bioconductor-somaticsignatures >=2.26.0,<2.27.0'
+    - 'bioconductor-variantannotation >=1.36.0,<1.37.0'
     - r-base
     - r-dplyr
     - r-ggplot2
@@ -54,11 +59,17 @@ test:
   commands:
     - '$R -e "library(''{{ name }}'')"'
 about:
-  home: 'http://bioconductor.org/packages/{{ bioc }}/bioc/html/{{ name }}.html'
+  home: 'https://bioconductor.org/packages/{{ bioc }}/bioc/html/{{ name }}.html'
   license: GPL-3
-  summary: 'The ''Rariant'' package identifies single nucleotide variants from sequencing data based on the difference of binomially distributed mismatch rates between matched samples.'
-
+  summary: 'Identification and Assessment of Single Nucleotide Variants through Shifts in Non-Consensus Base Call Frequencies'
+  description: 'The ''Rariant'' package identifies single nucleotide variants from sequencing data based on the difference of binomially distributed mismatch rates between matched samples.'
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'
 extra:
   identifiers:
     - biotools:rariant
     - doi:10.1038/nmeth.3252
+  parent_recipe:
+    name: bioconductor-rariant
+    path: recipes/bioconductor-rariant
+    version: 1.16.0
+

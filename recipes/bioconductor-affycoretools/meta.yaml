@@ -1,35 +1,37 @@
-{% set version = "1.50.6" %}
+{% set version = "1.62.0" %}
 {% set name = "affycoretools" %}
-{% set bioc = "3.6" %}
+{% set bioc = "3.12" %}
 
 package:
   name: 'bioconductor-{{ name|lower }}'
   version: '{{ version }}'
 source:
-  fn: '{{ name }}_{{ version }}.tar.gz'
   url:
-    - 'http://bioconductor.org/packages/{{ bioc }}/bioc/src/contrib/{{ name }}_{{ version }}.tar.gz'
+    - 'https://bioconductor.org/packages/{{ bioc }}/bioc/src/contrib/{{ name }}_{{ version }}.tar.gz'
     - 'https://bioarchive.galaxyproject.org/{{ name }}_{{ version }}.tar.gz'
     - 'https://depot.galaxyproject.org/software/bioconductor-{{ name }}/bioconductor-{{ name }}_{{ version }}_src_all.tar.gz'
-  sha256: af0aa0483887713cf99cde3a715f84343bcf0815650c599432d5ea6b2999a585
+  md5: 3f9abcb58faa3646b7d86a695f466c8b
 build:
   number: 0
   rpaths:
     - lib/R/lib/
     - lib/
+  noarch: generic
+# Suggests: affydata, hgfocuscdf, BiocStyle, knitr, hgu95av2.db, rgl, rmarkdown
 requirements:
-  build:
-    - bioconductor-affy
-    - bioconductor-annotationdbi
-    - bioconductor-biobase
-    - bioconductor-biocgenerics
-    - bioconductor-edger
-    - bioconductor-gcrma
-    - bioconductor-gostats
-    - bioconductor-limma
-    - bioconductor-oligoclasses
-    - bioconductor-reportingtools
-    - bioconductor-s4vectors
+  host:
+    - 'bioconductor-affy >=1.68.0,<1.69.0'
+    - 'bioconductor-annotationdbi >=1.52.0,<1.53.0'
+    - 'bioconductor-biobase >=2.50.0,<2.51.0'
+    - 'bioconductor-biocgenerics >=0.36.0,<0.37.0'
+    - 'bioconductor-edger >=3.32.0,<3.33.0'
+    - 'bioconductor-gcrma >=2.62.0,<2.63.0'
+    - 'bioconductor-glimma >=2.0.0,<2.1.0'
+    - 'bioconductor-gostats >=2.56.0,<2.57.0'
+    - 'bioconductor-limma >=3.46.0,<3.47.0'
+    - 'bioconductor-oligoclasses >=1.52.0,<1.53.0'
+    - 'bioconductor-reportingtools >=2.30.0,<2.31.0'
+    - 'bioconductor-s4vectors >=0.28.0,<0.29.0'
     - r-base
     - r-dbi
     - r-ggplot2
@@ -39,17 +41,18 @@ requirements:
     - r-rsqlite
     - r-xtable
   run:
-    - bioconductor-affy
-    - bioconductor-annotationdbi
-    - bioconductor-biobase
-    - bioconductor-biocgenerics
-    - bioconductor-edger
-    - bioconductor-gcrma
-    - bioconductor-gostats
-    - bioconductor-limma
-    - bioconductor-oligoclasses
-    - bioconductor-reportingtools
-    - bioconductor-s4vectors
+    - 'bioconductor-affy >=1.68.0,<1.69.0'
+    - 'bioconductor-annotationdbi >=1.52.0,<1.53.0'
+    - 'bioconductor-biobase >=2.50.0,<2.51.0'
+    - 'bioconductor-biocgenerics >=0.36.0,<0.37.0'
+    - 'bioconductor-edger >=3.32.0,<3.33.0'
+    - 'bioconductor-gcrma >=2.62.0,<2.63.0'
+    - 'bioconductor-glimma >=2.0.0,<2.1.0'
+    - 'bioconductor-gostats >=2.56.0,<2.57.0'
+    - 'bioconductor-limma >=3.46.0,<3.47.0'
+    - 'bioconductor-oligoclasses >=1.52.0,<1.53.0'
+    - 'bioconductor-reportingtools >=2.30.0,<2.31.0'
+    - 'bioconductor-s4vectors >=0.28.0,<0.29.0'
     - r-base
     - r-dbi
     - r-ggplot2
@@ -62,10 +65,16 @@ test:
   commands:
     - '$R -e "library(''{{ name }}'')"'
 about:
-  home: 'http://bioconductor.org/packages/{{ bioc }}/bioc/html/{{ name }}.html'
+  home: 'https://bioconductor.org/packages/{{ bioc }}/bioc/html/{{ name }}.html'
   license: Artistic-2.0
-  summary: 'Various wrapper functions that have been written to streamline the more common analyses that a core Biostatistician might see.'
+  summary: 'Functions useful for those doing repetitive analyses with Affymetrix GeneChips'
+  description: 'Various wrapper functions that have been written to streamline the more common analyses that a core Biostatistician might see.'
 extra:
   identifiers:
     - biotools:affycoretools
     - doi:10.1038/nmeth.3252
+  parent_recipe:
+    name: bioconductor-affycoretools
+    path: recipes/bioconductor-affycoretools
+    version: 1.52.2
+

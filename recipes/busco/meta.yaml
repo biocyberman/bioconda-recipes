@@ -1,45 +1,58 @@
-{% set name = "busco" %}
-{% set version = "3.0.2" %}
-{% set sha256 = "cd0699545a126c7cc94604eef7c8dc50379b5d11becbad3a0f55d995a4c5e1c0" %}
+{% set version = "5.0.0" %}
+{% set sha256 = "0d4ff765a751a5d22771bece2c1992b1e780da57504501a82752f307be86dcef" %}
 
 package:
-  name: {{ name|lower }}
+  name: busco
   version: {{ version }}
 
 build:
-  skip: True # [py27]
-  number: 6
+  number: 0
+  noarch: python
 
 source:
-  fn: {{ name|lower }}_{{ version }}.tar.gz
-  url: https://gitlab.com/ezlab/busco/repository/archive.tar.bz2?ref={{ version }}
+  url: https://gitlab.com/ezlab/busco/-/archive/{{ version }}/busco-{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - 0001-Add-default-config-path-within-prefix-updated.patch
 
 requirements:
-  build:
-    - python
-  run:
-    - python
-    - blast
-    - hmmer
-    - augustus >=3.2.3
-    - r-ggplot2 >=2.2.1
-
-test:
-  requires:
+  host:
+    - python >=3.3
+    - pip
     - wget
+    - blast >=2.10.1 # There is a multithreading problem for all BLAST versions between 2.4 and 2.10.0
+    - hmmer >=3.1b2 # sepp needs this version
+    - augustus >=3.3
+    - biopython
+    - prodigal
+    - sepp >=4.3.10
+    - metaeuk
+    - pandas
+  run:
+    - python >=3.3
+    - wget
+    - blast >=2.10.1 # There is a multithreading problem for all BLAST versions between 2.4 and 2.10.0
+    - hmmer >=3.1b2 # sepp needs this version
+    - augustus >=3.3
+    - biopython
+    - r-base
+    - r-ggplot2 >=2.2.1
+    - prodigal
+    - sepp >=4.3.10
+    - metaeuk
+    - pandas
+test:
   commands:
-    - run_BUSCO.py -h
-    - run_busco -h
+    - busco -h
     - generate_plot.py -h
-    - generate_plot -h
-
-    # Message reported by busco when the config file exists but no input provided
-    - run_busco | grep "Please add it in the config file"
+  source_files:
+    # used in run_test.sh
+    - test_data
 
 about:
   home: http://busco.ezlab.org/
-  license: GPL
+  license: MIT
+  license_file: LICENSE
   summary: BUSCO provides measures for quantitative assessment of genome
            assembly, gene set, and transcriptome completeness based on
            evolutionarily informed expectations of gene content from
@@ -49,3 +62,8 @@ extra:
   identifiers:
     - biotools:busco
     - doi:10.1093/bioinformatics/btv351
+    - usegalaxy-eu:busco
+  recipe-maintainers:
+    - silask
+    - matsepp
+    - berkelem

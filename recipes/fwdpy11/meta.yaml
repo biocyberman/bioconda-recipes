@@ -1,32 +1,40 @@
 package:
   name: fwdpy11
-  version: "0.1.4"
+  version: "0.11.0"
 
 source:
-  fn:  fwdpy11-0.1.4.tar.gz
-  url: https://pypi.python.org/packages/bf/1f/394a81ffe2e7c345e1bbe7c3a04cff893cf2d09920625b3dfc1ef14f5c50/fwdpy11-0.1.4.tar.gz
-  md5: 022dbd7a46e28aeb4d41636c59fbd189
+  url: https://files.pythonhosted.org/packages/be/25/390aedf974c672a0832d9e8fd0c14943f9cd2827fe7c9b5c99b163375cf3/fwdpy11-0.11.0.tar.gz
+  sha256: af4ee887934ff90b39bfa6abe5063afe34be734229a3880d377fc8ceeeebffd9
 
 build:
   skip: True # [py27]
   number: 1
-  string: "py{{CONDA_PY}}_gsl{{CONDA_GSL}}_{{PKG_BUILDNUM}}"
 
 requirements:
   build:
-    - gcc 
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - cmake
+  host:
+    - pkgconfig
     - python
+    - pip
     - numpy >=1.10
-    - pybind11 >=2.2.2
-    - gsl {{CONDA_GSL}}*
+    - pybind11 >=2.6.0
+    - tskit >=0.3.2
+    - gsl
     - openblas
-
+    - attrs
+    - setuptools_scm
   run:
     - python
     - numpy >=1.10
-    - libgcc
-    - gsl {{CONDA_GSL}}*
+    - tskit >=0.3.2
+    - gsl
     - openblas
+    - sparse
+    - attrs
+    - black
 
 test:
   # Python imports
@@ -37,3 +45,8 @@ about:
   home: http://pypi.python.org/pypi/fwdpy11
   license: GNU General Public License v3 or later (GPLv3+)
   summary: 'Forward-time population genetic simulation in Python.'
+
+extras:
+  identifiers:
+    - 10.1534/genetics.114.165019
+    - 10.1371/journal.pcbi.1006581

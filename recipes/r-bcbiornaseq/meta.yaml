@@ -1,52 +1,108 @@
+{% set version = "0.3.39" %}
+
 package:
   name: r-bcbiornaseq
-  # Note that conda versions cannot contain -, so any -'s in the version have
-  # been replaced with _'s.
-  version: "0.2.3a"
+  version: "{{ version }}"
 
 source:
-  fn: 6d75164.tar.gz
-  url: https://github.com/hbc/bcbioRNASeq/archive/6d75164.tar.gz
-  sha256: 575a2df5900e725845daa9c35648d7df839f8a63c8458454bc1cadda954e53fa
+  url: "https://github.com/hbc/bcbioRNASeq/archive/v{{ version }}.tar.gz"
+  sha256: 4800440a0e4ef5ce1f0419e41ae9e6a2a568b820e8521847e88a0f8931d7d753
 
 build:
   number: 0
-  # This is required to make R link correctly on Linux.
+  noarch: generic
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
-  build:
-    - 'r-base >=3.4.0'
-    - bioconductor-summarizedexperiment
-    - r-bcbiobase
-    - bioconductor-deseq2
+  host:
+      # Depends:
+    - r-base
+    - bioconductor-summarizedexperiment >=1.18
+    - r-basejump >=0.13.3
+      # Imports:
+    - bioconductor-biocgenerics
+    - bioconductor-deseq2 >=1.28
+    - bioconductor-edger >=3.30
+    - bioconductor-s4vectors
+    - bioconductor-tximport >=1.16
+    - r-acidgenerics >=0.4.1
+    - r-acidplots >=0.3.0
+    - r-bcbiobase >=0.6.16
+    - r-cli >=2.2
+    - r-cowplot >=1.1
+    - r-ggplot2 >=3.3
+    - r-goalie >=0.4.11
+    - r-rlang >=0.4
+    - r-scales >=1.1
+    - r-sessioninfo >=1.1
+      # Suggests:
+    - bioconductor-biocstyle
+    - bioconductor-clusterprofiler
     - bioconductor-degreport
-    - bioconductor-edger
-    - r-ggrepel
-    - r-pbapply
-    - bioconductor-tximport
+    - r-deseqanalysis
+    - bioconductor-dose
+    - bioconductor-ensdb.hsapiens.v75
+    - bioconductor-org.hs.eg.db
+    - bioconductor-org.mm.eg.db
+    - bioconductor-pathview
+    - bioconductor-rhdf5
     - bioconductor-vsn
-
+    - r-hexbin
+    - r-knitr
+    - r-rmarkdown
+    - r-roxygen2
+    - r-tidyverse
+    - r-viridis
   run:
-    - 'r-base >=3.4.0'
-    - bioconductor-summarizedexperiment
-    - r-bcbiobase
-    - bioconductor-deseq2
+      # Depends:
+    - r-base
+    - bioconductor-summarizedexperiment >=1.18
+    - r-basejump >=0.13.3
+      # Imports:
+    - bioconductor-biocgenerics
+    - bioconductor-deseq2 >=1.28
+    - bioconductor-edger >=3.30
+    - bioconductor-s4vectors
+    - bioconductor-tximport >=1.16
+    - r-acidgenerics >=0.4.1
+    - r-acidplots >=0.3.0
+    - r-bcbiobase >=0.6.16
+    - r-cli >=2.2
+    - r-cowplot >=1.1
+    - r-ggplot2 >=3.3
+    - r-goalie >=0.4.11
+    - r-rlang >=0.4
+    - r-scales >=1.1
+    - r-sessioninfo >=1.1
+      # Suggests:
+    - bioconductor-biocstyle
+    - bioconductor-clusterprofiler
     - bioconductor-degreport
-    - bioconductor-edger
-    - r-ggrepel
-    - r-pbapply
-    - bioconductor-tximport
+    - r-deseqanalysis
+    - bioconductor-dose
+    - bioconductor-ensdb.hsapiens.v75
+    - bioconductor-org.hs.eg.db
+    - bioconductor-org.mm.eg.db
+    - bioconductor-pathview
+    - bioconductor-rhdf5
     - bioconductor-vsn
-
+    - r-hexbin
+    - r-knitr
+    - r-rmarkdown
+    - r-roxygen2
+    - r-tidyverse
+    - r-viridis
 
 test:
   commands:
     - $R -e "library('bcbioRNASeq')"
 
 about:
-  home: https://github.com/hbc/bcbioRNASeq
-  license: MIT
-  summary: Quality control and differential expression for bcbio RNA-seq experiments.
+  home: http://bioinformatics.sph.harvard.edu/bcbioRNASeq/
+  dev_url: https://github.com/hbc/bcbioRNASeq
+  license: GPL-3.0
+  license_file: LICENSE
+  license_family: GPL
+  summary: R package for bcbio RNA-seq analysis.

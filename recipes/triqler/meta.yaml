@@ -1,0 +1,42 @@
+{% set name = "triqler" %}
+{% set version = "0.6.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: "e47fe2566439360d64d00b07b004790a54cad854fe4a4085179703156e4071f2"
+
+build:
+  noarch: python
+  number: 0
+  entry_points:
+    - triqler = triqler.triqler:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - numpy >=1.12
+    - python
+    - scipy >=0.17
+
+test:
+  imports:
+    - triqler
+  commands:
+    - triqler --help
+
+about:
+  home: "https://github.com/statisticalbiotechnology/triqler"
+  license: "Apache Software"
+  license_family: "APACHE"
+  summary: "A combined identification and quantification error model of label-free protein quantification"
+
+extra:
+  recipe-maintainers:
+    - glormph

@@ -1,0 +1,29 @@
+{% set version = "1.1.3" %}
+{% set sha256 = "980cbed5b5b8d3b8de23c60a012da03549a934973a4e5d3466d2238fe82456de" %}
+package:
+  name: ma
+  version: '{{version}}'
+source:
+  url: "https://github.com/ITBE-Lab/MA/archive/{{version}}.tar.gz"
+  sha256: "{{sha256}}"
+build:
+  number: 0
+  skip: true # [osx or py2k]
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - cmake
+  host:
+    - zlib
+    - python>=3.6
+  run:
+    - zlib
+    - python>=3.6
+test:
+  commands:
+    - maCMD -h
+about:
+  home: https://github.com/ITBE-Lab/MA
+  license: MIT
+  summary: MA - The Modular Aligner

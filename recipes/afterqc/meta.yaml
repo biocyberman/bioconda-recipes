@@ -3,22 +3,19 @@
 
 package:
   name: afterqc
-  version: '{{ version }}'
+  version: {{ version }}
 
 build:
-  number: 0
-  skip: true # [not py27]
+  noarch: generic
+  number: 3
 
 source:
-  fn: afterQC.tar.gz
   url: https://github.com/OpenGene/AfterQC/archive/v{{ version }}.tar.gz
-  sha256: '{{ sha256 }}'
+  sha256: {{ sha256 }}
 
 requirements:
-  build:
-    - python
   run:
-    - python
+    - python >=2.7,<3.0a0
 
 test:
   commands:

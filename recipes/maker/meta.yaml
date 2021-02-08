@@ -1,26 +1,30 @@
+{% set blast_version = "2.9.0" %}
+
 package:
   name: maker
-  version: 2.31.9
+  version: 2.31.11
 
 source:
-  fn: maker-2.31.9.tgz.tar.gz
-  url: http://yandell.topaz.genetics.utah.edu/maker_downloads/static/maker-2.31.9.tgz
-  md5: 63d79e37d25c60d236658f847b74ea18
+  url: http://yandell.topaz.genetics.utah.edu/maker_downloads/static/maker-2.31.11.tgz
+  sha256: 129ce1d33df8ae29d417f0dac0df756398c5b76bdd58213233e94e735fe38c37
+  patches:
+    - "repeatmasker_check.patch"
+    - "mpi_init.patch"
 
 build:
-  number: 3
+  noarch: generic
+  number: 0
 
 requirements:
-  build:
+  host:
     - augustus >=3.2.3
-    - blast
+    - blast {{ blast_version }}
     - exonerate
-    - infernal
-    - mir-prefer
-    - repeatmasker
+    - repeatmasker >=4.1.1
     - snap
     - snoscan
-    - perl-bioperl
+    - perl
+    - perl-bioperl-core >=1.007002
     - perl-bit-vector
     - perl-dbd-pg
     - perl-dbd-sqlite
@@ -28,24 +32,24 @@ requirements:
     - perl-file-which
     - perl-io-all
     - perl-io-prompt
-    - perl-inline-c
+    - perl-inline-c >=0.78
     - perl-perlio-gzip
     - perl-forks
-    - perl-list-moreutils <=0.25
+    - perl-list-moreutils
     - perl-perl-unsafe-signals
-    - openmpi
-    - trnascan-se
+    - mpich
+    - trnascan-se ==1.3.1
     - postgresql
   run:
     - augustus >=3.2.3
-    - blast
+    - blast {{ blast_version }}
     - exonerate
-    - infernal
-    - mir-prefer
-    - repeatmasker
+    - repeatmasker >=4.1.1
+    - rmblast {{ blast_version }} # blast and rmblast must be pinned to the same version as they share some libraries
     - snap
     - snoscan
-    - perl-bioperl
+    - perl
+    - perl-bioperl-core >=1.007002
     - perl-bit-vector
     - perl-dbd-pg
     - perl-dbd-sqlite
@@ -53,12 +57,12 @@ requirements:
     - perl-file-which
     - perl-io-all
     - perl-io-prompt
-    - perl-inline-c
+    - perl-inline-c >=0.78
     - perl-perlio-gzip
     - perl-forks
-    - perl-list-moreutils <=0.25
+    - perl-list-moreutils
     - perl-perl-unsafe-signals
-    - openmpi
+    - mpich
     - trnascan-se ==1.3.1
     - postgresql
     # GeneMarkS, GeneMark-ES and FGENESH are optional requirements but are not free
@@ -66,6 +70,7 @@ requirements:
 about:
   home: http://www.yandell-lab.org/software/maker.html
   license: GPL3
+  license_file: LICENSE
   summary: MAKER is a portable and easily configurable genome annotation pipeline.
 
 test:
@@ -73,5 +78,9 @@ test:
     - maker --version
 
 extra:
+  container:
+    # mpich needs /etc/resolv.conf : https://github.com/bioconda/bioconda-recipes/issues/11583
+    extended-base: true
   identifiers:
     - biotools:maker
+    - usegalaxy-eu:maker
